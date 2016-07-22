@@ -18,7 +18,7 @@ Minim minim;
 AudioPlayer player;
 FFT fft;
 float[] fftData;
-String filename = "sample_02.mp3";
+String filename = "sample_05.mp3";
 
 void setup() {
   size(800, 600, OPENGL);

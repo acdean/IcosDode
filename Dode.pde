@@ -111,6 +111,7 @@ class Dode {
   void drawPent(int i) {
     beginShape(TRIANGLE_FAN);
     texture(tex);
+    normal(centres[i].x, centres[i].y, centres[i].z);
     vertex(centres[i].x, centres[i].y, centres[i].z, 0, 0);
     drawTri(i, points[(int)faces[i].a], points[(int)faces[i].b]);
     drawTri(i, points[(int)faces[i].b], points[(int)faces[i].c]);
