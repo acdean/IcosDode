@@ -55,8 +55,8 @@ class Tet {
   
   void draw() {
     colorMode(RGB);
-    gx += gdx;
-    gy += gdy;
+    //gx += gdx;
+    //gy += gdy;
     gz += gdz;
     rx += dx;
     ry += dy;
@@ -66,23 +66,33 @@ class Tet {
     rotateY(gy);
     rotateZ(gz);
     translate(r, 0, 0);
-    scale(sz);
     rotateX(rx);
     rotateY(ry);
     rotateZ(rz);
-    fill(c);
-    drawTet();
+    stroke(c);
+    drawTet(sz);
     popMatrix();
   }
   
-  void drawTet() {
-    beginShape(TRIANGLE_STRIP);
-    vertex(points[0].x, points[0].y, points[0].z);
-    vertex(points[1].x, points[1].y, points[1].z);
-    vertex(points[2].x, points[2].y, points[2].z);
-    vertex(points[3].x, points[3].y, points[3].z);
-    vertex(points[0].x, points[0].y, points[0].z);
-    vertex(points[1].x, points[1].y, points[1].z);
+  void drawTet(float sz) {
+    beginShape(LINES);
+    vertex(sz * points[0].x, sz * points[0].y, sz * points[0].z);
+    vertex(sz * points[1].x, sz * points[1].y, sz * points[1].z);
+
+    vertex(sz * points[0].x, sz * points[0].y, sz * points[0].z);
+    vertex(sz * points[2].x, sz * points[2].y, sz * points[2].z);
+
+    vertex(sz * points[0].x, sz * points[0].y, sz * points[0].z);
+    vertex(sz * points[3].x, sz * points[3].y, sz * points[3].z);
+
+    vertex(sz * points[1].x, sz * points[1].y, sz * points[1].z);
+    vertex(sz * points[2].x, sz * points[2].y, sz * points[2].z);
+
+    vertex(sz * points[1].x, sz * points[1].y, sz * points[1].z);
+    vertex(sz * points[3].x, sz * points[3].y, sz * points[3].z);
+
+    vertex(sz * points[2].x, sz * points[2].y, sz * points[2].z);
+    vertex(sz * points[3].x, sz * points[3].y, sz * points[3].z);
     endShape();
   }
 }
