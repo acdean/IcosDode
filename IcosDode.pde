@@ -14,17 +14,19 @@ PeasyCam cam;
 
 Dode dode;
 Icos icos;
+Tets tets;
 Minim minim;
 AudioPlayer player;
 FFT fft;
 float[] fftData;
-String filename = "sample_05.mp3";
+String filename = "sample_03.mp3";
 
 void setup() {
   size(800, 600, OPENGL);
   cam = new PeasyCam(this, 700);
   dode = new Dode();
   icos = new Icos();
+  tets = new Tets();
   minim = new Minim(this);
   player = minim.loadFile(filename, 1024);
   player.loop();
@@ -35,15 +37,16 @@ void setup() {
 
 void draw() {
   background(0);
+  dode.draw();
   lights();
   directionalLight(128, 128, 128, 0, 0, -1);  // default
   directionalLight(128, 128, 128, 0, 0, 1);   // reverse default - no dark bits
+  tets.draw();
   fft.forward(player.mix);
   for(int i = 0; i < fft.avgSize(); i++) {
     fftData[i] = fft.getAvg(i);
   }
   icos.draw(fftData);
-  dode.draw();
 }
 
 void triangle(PShape s, PVector a, PVector b, PVector c) {

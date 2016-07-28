@@ -4,17 +4,22 @@ class Dode {
 
   float rx, ry, rz;
   float dx, dy, dz;
+  float tr, td;
 
   PVector[] centres;
   PImage tex;
   
   Dode() {
+    tex = loadImage("texture.png");
     rx = random(TWO_PI);
     ry = random(TWO_PI);
     rz = random(TWO_PI);
     dx = random(-MAX_SPEED, MAX_SPEED);
     dy = random(-MAX_SPEED, MAX_SPEED);
     dz = random(-MAX_SPEED, MAX_SPEED);
+    // texture
+    tr = random(TWO_PI);
+    td = random(-MAX_SPEED, MAX_SPEED);
     centres = new PVector[faces.length];
     for (int i = 0 ; i < faces.length ; i++) {
       // centres is the average of the points
@@ -25,7 +30,6 @@ class Dode {
       centres[i].add(points[(int)faces[i].e]);
       centres[i].div(5);
     }
-    tex = loadImage("texture.png");
   }
 
   /*
@@ -77,9 +81,17 @@ class Dode {
   };
 
   void draw() {
+    // modify the texture - NOT WORKING
+    //color c = color((int)random(128, 255), (int)random(128, 255), (int)random(128, 255));
+    //println(tex.width);
+    //println(tex.height);
+    //tex.set((int)random(tex.width), (int)random(tex.height), c);
+    //updatePixels();
+    
     rx += dx;
     ry += dy;
     rz += dz;
+    tr += td;
     pushMatrix();
     rotateX(rx);
     rotateY(ry);
@@ -112,7 +124,7 @@ class Dode {
     beginShape(TRIANGLE_FAN);
     texture(tex);
     normal(centres[i].x, centres[i].y, centres[i].z);
-    vertex(centres[i].x, centres[i].y, centres[i].z, 0, 0);
+    vertex(centres[i].x, centres[i].y, centres[i].z, .5 + .5 * cos(tr), .5 + .5 * sin(tr));
     drawTri(i, points[(int)faces[i].a], points[(int)faces[i].b]);
     drawTri(i, points[(int)faces[i].b], points[(int)faces[i].c]);
     drawTri(i, points[(int)faces[i].c], points[(int)faces[i].d]);
@@ -121,9 +133,16 @@ class Dode {
     endShape();
   }
 
+  // actually two triangles, mirror images of each other
   void drawTri(int i, PVector p1, PVector p2) {
-    vertex(p1.x, p1.y, p1.z, 1, 1);
-    vertex((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, (p1.z + p2.z) / 2, 1, 0);
-    vertex(p2.x, p2.y, p2.z, 1, 1);
+    float x1, y1, x2, y2;
+    x1 = .5 + .5 * cos(tr + PI / 3);
+    y1 = .5 + .5 * sin(tr + PI / 3);
+    x2 = .5 + .5 * cos(tr + TWO_PI / 3);
+    y2 = .5 + .5 * sin(tr + TWO_PI / 3);
+    vertex(p1.x, p1.y, p1.z, x1, y1);
+    // mid point
+    vertex((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, (p1.z + p2.z) / 2, x2, y2);
+    vertex(p2.x, p2.y, p2.z, x1, y1);
   }
 }
